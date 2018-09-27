@@ -38,15 +38,15 @@ tree* dequeuehp(heap *heap)
     
 }
 
-void print_in_order(tree *hufftree)
+void print_in_order(tree *hufftree, FILE *file_out)
 {
 	
 	if(!is_empty(hufftree))
 	{
-		if(hufftree->data !=19)printf("[%c]", hufftree->data);
-		else printf("*");
-		print_in_order(hufftree->left);
-		print_in_order(hufftree->right);
+		if(hufftree->left == NULL && hufftree->right == NULL) fprintf(file_out,"%c",hufftree->data);
+		else fprintf(file_out,"*");
+		print_in_order(hufftree->left, file_out);
+		print_in_order(hufftree->right, file_out);
 	}
 	
 }
