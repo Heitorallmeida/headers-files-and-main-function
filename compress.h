@@ -7,8 +7,8 @@ int is_bit_i_set(unsigned char comp,int i);
 
 int check_bit(tree *hufftree,unsigned char comp,int index);
 
-unsigned char print_compress(tree *hufftree, unsigned char comp, unsigned int *indexgeral,unsigned int *indexcurrent,unsigned char byteprevious);
+unsigned char print_compress(tree *hufftree, unsigned char comp, unsigned int *indexgeral,unsigned int *indexcurrent,unsigned char byteprevious, FILE *file_out);
 
-void compress(tree *hufftree, hash_tree *hashtree,char filename[]);
+void compress(tree *hufftree, hash_tree *hashtree,char filename[],FILE *file_out);
 
 #endif 
