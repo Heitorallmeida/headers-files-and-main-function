@@ -31,7 +31,7 @@ int check_bit(tree *hufftree,unsigned char comp,int index)
 	else return 0;
 }
 
-unsigned char print_compress(tree *hufftree, unsigned char comp, unsigned int *indexgeral,unsigned int *indexcurrent,unsigned char byteprevious)
+unsigned char print_compress(tree *hufftree, unsigned char comp, unsigned int *indexgeral,unsigned int *indexcurrent,unsigned char byteprevious, FILE *file_out)
 {
 	//printf("compress_7\n");
 	unsigned char mask = 0;
@@ -76,7 +76,8 @@ unsigned char print_compress(tree *hufftree, unsigned char comp, unsigned int *i
 		{
 			aux = 7;
 			byte += byteprevious;
-			printf("%d", byte);
+			fprintf(file_out,"%c",byte);
+			//printf("%d", byte);
 			*indexgeral = aux;
 			*indexcurrent = index;
 			byte = 0;
@@ -84,8 +85,16 @@ unsigned char print_compress(tree *hufftree, unsigned char comp, unsigned int *i
 		}
 	}
 }
-
-void compress(tree *hufftree, hash_tree *hashtree,char filename[])
+void put_trash(FILE *file_out, unsigned int trash)
+{
+	unsigned int bin;
+	if(trash == 0)
+	{
+		fprintf(file_out,"%s\n", );
+	}
+	
+}
+void compress(tree *hufftree, hash_tree *hashtree,char filename[], FILE *file_out)
 {
 	int index;
 	unsigned int key;
@@ -98,6 +107,7 @@ void compress(tree *hufftree, hash_tree *hashtree,char filename[])
 	index_current_freq = &value2;
 	//printf("compress_2\n");
 	FILE *file_in;
+	FILE *trash;
 	file_in = fopen(filename, "rb");
 	//printf("compress_3\n");
 	//printf("\n");
@@ -118,17 +128,22 @@ void compress(tree *hufftree, hash_tree *hashtree,char filename[])
 			//printf("%x\n", hashtree->trees[key]->path_numofbits);
 			///printf("%u\n", index_geral_freq);
 		//	printf("%u\n", index_current_freq);
-			byte = print_compress(hufftree,hashtree->trees[key]->path_numofbits,index_geral_freq,index_current_freq,byte);			
+			byte = print_compress(hufftree,hashtree->trees[key]->path_numofbits,index_geral_freq,index_current_freq,byte, file_out);			
 			
 		//}
 
 		if(*index_geral_freq == 7)
 		{
-			printf("%d", byte);
+			fprintf(file_out,"%c",byte);
+			//printf("%d", byte);
 			byte = 0;
 		}
 	}
-	printf("%d\n", byte);
+	//printf("%d", *index_geral_freq);
+	fprintf(file_out,"%c",byte);
+	rewind(file_out);
+	//////////////////////////////////////////put_trash(file_out, *index_geral_freq); vai usar essa função pra colocar o lixo
+	fclose(file_out);
 	fclose(file_in);
-	printf("\n");
+	//trash = fopen()
 }
