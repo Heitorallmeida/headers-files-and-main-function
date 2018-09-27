@@ -23,7 +23,7 @@ int is_empty(tree *hufftree);
 
 tree* dequeuehp(heap *heap);
 
-void print_in_order(tree *hufftree);
+void print_in_order(tree *hufftree, FILE *file_out);
 
 tree* build_hufftree(tree *hufftree, heap *heap);
 
